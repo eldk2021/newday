@@ -313,6 +313,8 @@ key값의 집합은 POJO로 바인딩을 해야 더 객체지향적이며, 빈 �
 ### 2. 클래스 파일 생성
 
 @ConfigurationProperties 이 좋은 이유 여러 표기법에 대해서 오토로 바인딩해 준다. ( 아래 참고 )
+![image](https://github.com/eldk2021/newday/assets/119994839/38f0818a-3f41-403d-bb97-257df407f80f)
+
 
 acme.my-project.person.first-name	properties 와 .yml에 권장되는 표기 방법 
 acme.myProject.person.firstName	표준 카멜 케이스 문법.
