@@ -281,6 +281,7 @@ class NumbersTest {
 ```
 
 ## 결론
+![image](https://github.com/eldk2021/newday/assets/119994839/e4263abf-b495-44e7-a67c-49d11a0a862e)
 
 
 위의 차이점을 알고, 필요할 때 더 정확한 annotation을 사용하는 것이 중요하다.
