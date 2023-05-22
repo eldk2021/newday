@@ -103,7 +103,10 @@ public class ValueTest {
  ```
 
 
-## 1.5. @ConfigurationProperties
+## @ConfigurationProperties
+
+- *.properties , *.yml 파일에 있는 property를 자바 클래스에 값을 가져와서(바인딩) 사용할 수 있게 해주는 어노테이션
+
 YMAL의 특징 중에 유연한 바인딩, 메타데이터를 지원합니다. 그러나 SpEL을 지원하지 않습니다.
 @Value와 다른 점은 또한 prefix를 사용하여 값을 바인딩 합니다. 즉, 접두사를 활용하여 원하는 객체를 바인딩 해주며, 원하는 형을 선택하여 더 객체 지향적으로 프로퍼티의 매핑이 가능합니다.
 새로운 의존성을 추가해줘야 가능하다.
@@ -288,3 +291,84 @@ class NumbersTest {
 key값의 집합은 POJO로 바인딩을 해야 더 객체지향적이며, 빈 주입 구조화와 안전한 객체를 만들수 있습니다. 따라서 @ConfigurationProperties를 사용하는 것이 더 좋습니다.
 
 ### https://rutgo-letsgo.tistory.com/93
+### https://programmer93.tistory.com/47
+
+---
+---
+
+## @ConfigurationProperties
+
+### 1. properties에서 오토컴플릿을 지원하도록 하기 위한 dependency를 추가
+
+```java
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-configuration-processor</artifactId>
+	<optional>true</optional>
+</dependency>
+ ```
+
+ 
+
+### 2. 클래스 파일 생성
+
+@ConfigurationProperties 이 좋은 이유 여러 표기법에 대해서 오토로 바인딩해 준다. ( 아래 참고 )
+
+acme.my-project.person.first-name	properties 와 .yml에 권장되는 표기 방법 
+acme.myProject.person.firstName	표준 카멜 케이스 문법.
+acme.my_project.person.first_name	.properties와 .yml 에서 사용가능한 방법 ( - 표기법이 더 표준 )
+ACME_MYPROJECT_PERSON_FIRSTNAME	시스템 환경 변수를 사용할 때 권장
+ 
+
+@Component로 bean을 등록해야 한다.
+
+@ConfigurationProperties에 prifix를 설정한다.
+
+properties 파일에 있는 site-url.* 에 대하여 바인딩한다.
+
+```java
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import lombok.Data;
+
+@Component
+@ConfigurationProperties(prefix = "site-url")
+@Data
+public class siteUrlProperties {
+	private String naver;
+	private String google;
+	
+}
+ 
+```
+### 3. 확인
+
+```java
+@Controller
+@RequestMapping("/")
+@Slf4j
+public class MainController {
+	
+	@Autowired
+	siteUrlProperties siteUrlProperties;
+	
+	@GetMapping("")
+	@ResponseBody
+	public String test(Model model) {
+		return siteUrlProperties.getNaver();
+	}
+	
+}
+```
+
+ 
+
+@ConfiguConfigurationProperties 어노테이션을 사용하여 property 값을 사용하면 매핑을 유연하게 할 수 있다는 장점이 있지만 SpEL를 사용할 수 없다.
+
+SpEL를 사용할 때에는 @Value를 사용해야 한다.
+
+ 
+
+그 외에는 @ConfiguConfigurationProperties를 사용하는게 코드가 깔끔해진다.
